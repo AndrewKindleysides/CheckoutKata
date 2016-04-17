@@ -48,6 +48,7 @@ namespace CheckoutKata
     public class Checkout
     {
         private readonly List<string> _basket;
+        private PricingList _pricingList = new PricingList();
 
         public Checkout()
         {
@@ -66,14 +67,13 @@ namespace CheckoutKata
 
         public int GetTotalPrice()
         {
-            var pricingList = new PricingList();
             var total = 0;
             foreach (var item in _basket)
             {
-                total += pricingList.Items.First(x => x.SKU == item).UnitPrice;
+                total += _pricingList.Items.First(x => x.SKU == item).UnitPrice;
             }
             
-            var discountTotal = ApplyDiscounts(pricingList);
+            var discountTotal = ApplyDiscounts(_pricingList);
             return total - discountTotal;
         }
 
