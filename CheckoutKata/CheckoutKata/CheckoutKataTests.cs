@@ -101,5 +101,19 @@ namespace CheckoutKata
             Assert.Equal(115, _checkout.GetTotalPrice());
         }
 
+        [Fact]
+        public void Checkout_calculates_total_price_with_multiple_discount_items_and_items_with_no_special_offers()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            _checkout.Scan("B");
+            _checkout.Scan("C");
+            _checkout.Scan("D");
+
+            Assert.Equal(115, _checkout.GetTotalPrice());
+        }
+
     }
 }
