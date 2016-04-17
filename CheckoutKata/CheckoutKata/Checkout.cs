@@ -26,14 +26,8 @@ namespace CheckoutKata
 
         public int GetTotalPrice()
         {
-            var total = 0;
-            foreach (var item in _basket)
-            {
-                total += _pricingList.Items.First(x => x.SKU == item).UnitPrice;
-            }
-
-            var discountTotal = ApplyDiscounts();
-            return total - discountTotal;
+            var total = _basket.Sum(item => _pricingList.Items.First(x => x.SKU == item).UnitPrice);
+            return total - ApplyDiscounts();
         }
 
         private int ApplyDiscounts()
