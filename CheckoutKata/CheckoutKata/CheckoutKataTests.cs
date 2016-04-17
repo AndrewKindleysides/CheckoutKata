@@ -32,6 +32,17 @@ namespace CheckoutKata
             checkout.Scan("B");
             Assert.Equal(80, checkout.GetTotalPrice());
         }
+
+        [Fact(Skip = "failing test for price with discounts")]
+        public void Checkout_calculates_total_price_with_discounts()
+        {
+            var checkout = new Checkout();
+            checkout.Scan("A");
+            checkout.Scan("A");
+            checkout.Scan("A");
+            checkout.Scan("B");
+            Assert.Equal(160, checkout.GetTotalPrice());
+        }
     }
 
     public class Checkout
