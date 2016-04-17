@@ -33,7 +33,7 @@ namespace CheckoutKata
             Assert.Equal(80, checkout.GetTotalPrice());
         }
 
-        [Fact(Skip = "failing test for price with discounts")]
+        [Fact]
         public void Checkout_calculates_total_price_with_discounts()
         {
             var checkout = new Checkout();
@@ -72,7 +72,19 @@ namespace CheckoutKata
             {
                 total += pricingList.Items.First(x => x.SKU == item).UnitPrice;
             }
-            return total;
+
+            var discountTotal = 0;
+            if (_basket.FindAll(e => e == "A").Count > 0)
+            {
+                var itemA = pricingList.Items.First(x => x.SKU == "A");
+                if (_basket.FindAll(e => e == "A").Count >= itemA.SpecialPricing.Quantity)
+                {
+
+                    var originalPrice = itemA.UnitPrice*itemA.SpecialPricing.Quantity;
+                    discountTotal += originalPrice - itemA.SpecialPricing.Price;
+                }
+            }
+            return total - discountTotal;
         }
     }
 
@@ -82,7 +94,7 @@ namespace CheckoutKata
         {
             Items = new List<Item>
             {
-                new Item() {SKU = "A", UnitPrice = 50}, 
+                new Item() {SKU = "A", UnitPrice = 50, SpecialPricing = new SpecialPricing(){Quantity = 3,Price = 130}}, 
                 new Item() {SKU = "B", UnitPrice = 30}
             };
         }
@@ -94,5 +106,12 @@ namespace CheckoutKata
     {
         public string SKU;
         public int UnitPrice;
+        public SpecialPricing SpecialPricing;
+    }
+
+    public class SpecialPricing
+    {
+        public int Quantity;
+        public int Price;
     }
 }
