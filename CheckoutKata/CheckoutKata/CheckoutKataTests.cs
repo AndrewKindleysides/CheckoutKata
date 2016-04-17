@@ -23,30 +23,28 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_can_scan_multiple_items()
         {
-            var checkout = new Checkout(new PricingList());
-            checkout.Scan("A");
-            checkout.Scan("B");
-            Assert.Equal(2, checkout.ItemsInBasket);
+            
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            Assert.Equal(2, _checkout.ItemsInBasket);
         }
 
         [Fact]
         public void Checkout_calculates_the_total_price()
         {
-            var checkout = new Checkout(new PricingList());
-            checkout.Scan("A");
-            checkout.Scan("B");
-            Assert.Equal(80, checkout.GetTotalPrice());
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            Assert.Equal(80, _checkout.GetTotalPrice());
         }
 
         [Fact]
         public void Checkout_calculates_total_price_with_discounts()
         {
-            var checkout = new Checkout(new PricingList());
-            checkout.Scan("A");
-            checkout.Scan("A");
-            checkout.Scan("A");
-            checkout.Scan("B");
-            Assert.Equal(160, checkout.GetTotalPrice());
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            Assert.Equal(160, _checkout.GetTotalPrice());
         }
     }
 
