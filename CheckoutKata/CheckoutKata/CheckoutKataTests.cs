@@ -58,6 +58,20 @@ namespace CheckoutKata
             Assert.Equal(175, _checkout.GetTotalPrice());
         }
 
+        [Fact(Skip = "added initial failing test for multiple discounts and singular items")]
+        public void Checkout_calculates_total_price_with_multiple_discounts_and_singular_items()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            _checkout.Scan("B");
+            _checkout.Scan("B");
+           
+            Assert.Equal(230, _checkout.GetTotalPrice());
+        }
+
     }
 
     public class Checkout
@@ -109,7 +123,7 @@ namespace CheckoutKata
                 var itemA = _pricingList.Items.First(x => x.SKU == item);
                 if (_basket.FindAll(e => e == item).Count >= itemA.SpecialPricing.Quantity)
                 {
-                    var originalPrice = itemA.UnitPrice*itemA.SpecialPricing.Quantity;
+                    var originalPrice = itemA.UnitPrice * itemA.SpecialPricing.Quantity;
                     discountTotal += originalPrice - itemA.SpecialPricing.Price;
                 }
             }
