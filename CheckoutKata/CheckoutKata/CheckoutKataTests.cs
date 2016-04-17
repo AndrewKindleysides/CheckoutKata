@@ -90,5 +90,16 @@ namespace CheckoutKata
             Assert.Equal(380, _checkout.GetTotalPrice());
         }
 
+        [Fact]
+        public void Checkout_calculates_total_price_with_multiple_items_including_those_with_no_special_offer()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            _checkout.Scan("C");
+            _checkout.Scan("D");
+            
+            Assert.Equal(115, _checkout.GetTotalPrice());
+        }
+
     }
 }
