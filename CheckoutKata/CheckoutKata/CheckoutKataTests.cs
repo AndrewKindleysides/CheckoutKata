@@ -23,7 +23,7 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_can_scan_multiple_items()
         {
-            
+
             _checkout.Scan("A");
             _checkout.Scan("B");
             Assert.Equal(2, _checkout.ItemsInBasket);
@@ -47,10 +47,9 @@ namespace CheckoutKata
             Assert.Equal(160, _checkout.GetTotalPrice());
         }
 
-        [Fact(Skip = "inital test for calculating multiple discounts")]
+        [Fact]
         public void Checkout_calculates_total_price_with_multiple_discounts()
         {
-
             _checkout.Scan("A");
             _checkout.Scan("A");
             _checkout.Scan("A");
@@ -89,7 +88,7 @@ namespace CheckoutKata
             {
                 total += _pricingList.Items.First(x => x.SKU == item).UnitPrice;
             }
-            
+
             var discountTotal = ApplyDiscounts(_pricingList);
             return total - discountTotal;
         }
@@ -99,12 +98,22 @@ namespace CheckoutKata
             var discountTotal = 0;
             if (_basket.FindAll(e => e == "A").Count > 0)
             {
-                
+
                 var itemA = pricingList.Items.First(x => x.SKU == "A");
                 if (_basket.FindAll(e => e == "A").Count >= itemA.SpecialPricing.Quantity)
                 {
                     var originalPrice = itemA.UnitPrice*itemA.SpecialPricing.Quantity;
                     discountTotal += originalPrice - itemA.SpecialPricing.Price;
+                }
+            }
+
+            if (_basket.FindAll(e => e == "B").Count > 0)
+            {
+                var itemB = pricingList.Items.First(x => x.SKU == "B");
+                if (_basket.FindAll(e => e == "B").Count >= itemB.SpecialPricing.Quantity)
+                {
+                    var originalPrice = itemB.UnitPrice * itemB.SpecialPricing.Quantity;
+                    discountTotal += originalPrice - itemB.SpecialPricing.Price;
                 }
             }
             return discountTotal;
@@ -117,12 +126,12 @@ namespace CheckoutKata
         {
             Items = new List<Item>
             {
-                new Item() {SKU = "A", UnitPrice = 50, SpecialPricing = new SpecialPricing(){Quantity = 3,Price = 130}}, 
-                new Item() {SKU = "B", UnitPrice = 30}
+                new Item() {SKU = "A", UnitPrice = 50, SpecialPricing = new SpecialPricing(){Quantity = 3, Price = 130}}, 
+                new Item() {SKU = "B", UnitPrice = 30, SpecialPricing = new SpecialPricing(){Quantity = 2, Price = 45}}
             };
         }
 
-        public List<Item> Items { get; set; } 
+        public List<Item> Items { get; set; }
     }
 
     public class Item
