@@ -13,13 +13,13 @@ namespace CheckoutKata
             Assert.Equal(1, checkout.ItemsInBasket);
         }
 
-        [Fact(Skip="Checking test fails first")]
+        [Fact]
         public void Checkout_can_scan_multiple_items()
         {
             var checkout = new Checkout();
             checkout.Scan("A");
             checkout.Scan("B");
-            Assert.Equal(1, checkout.ItemsInBasket);
+            Assert.Equal(2, checkout.ItemsInBasket);
         }
     }
 
