@@ -46,6 +46,19 @@ namespace CheckoutKata
             _checkout.Scan("B");
             Assert.Equal(160, _checkout.GetTotalPrice());
         }
+
+        [Fact(Skip = "inital test for calculating multiple discounts")]
+        public void Checkout_calculates_total_price_with_multiple_discounts()
+        {
+
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("B");
+            _checkout.Scan("B");
+            Assert.Equal(175, _checkout.GetTotalPrice());
+        }
+
     }
 
     public class Checkout
