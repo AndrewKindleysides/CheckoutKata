@@ -81,7 +81,7 @@ namespace CheckoutKata
             _checkout.Scan("A");
             _checkout.Scan("A");
             
-            Assert.Equal(290, _checkout.GetTotalPrice());
+            Assert.Equal(260, _checkout.GetTotalPrice());
         }
 
     }
