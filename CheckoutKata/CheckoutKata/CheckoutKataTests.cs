@@ -6,12 +6,18 @@ namespace CheckoutKata
 {
     public class CheckoutKataTests
     {
+        private readonly Checkout _checkout;
+
+        public CheckoutKataTests()
+        {
+            _checkout = new Checkout(new PricingList());
+        }
+
         [Fact]
         public void Checkout_can_scan_an_item()
         {
-            var checkout = new Checkout(new PricingList());
-            checkout.Scan("A");
-            Assert.Equal(1, checkout.ItemsInBasket);
+            _checkout.Scan("A");
+            Assert.Equal(1, _checkout.ItemsInBasket);
         }
 
         [Fact]
