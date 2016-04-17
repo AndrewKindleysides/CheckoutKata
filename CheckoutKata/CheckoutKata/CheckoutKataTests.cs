@@ -71,6 +71,19 @@ namespace CheckoutKata
             Assert.Equal(255, _checkout.GetTotalPrice());
         }
 
+        [Fact(Skip = "initial failing test for multiple discounts on the same item")]
+        public void Checkout_calculates_total_price_with_multiple_discounts_of_the_same_item()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            
+            Assert.Equal(290, _checkout.GetTotalPrice());
+        }
+
     }
 
     public class Checkout
