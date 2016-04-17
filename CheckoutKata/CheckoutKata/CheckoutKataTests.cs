@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace CheckoutKata
@@ -10,7 +9,7 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_can_scan_an_item()
         {
-            var checkout = new Checkout();
+            var checkout = new Checkout(new PricingList());
             checkout.Scan("A");
             Assert.Equal(1, checkout.ItemsInBasket);
         }
@@ -18,7 +17,7 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_can_scan_multiple_items()
         {
-            var checkout = new Checkout();
+            var checkout = new Checkout(new PricingList());
             checkout.Scan("A");
             checkout.Scan("B");
             Assert.Equal(2, checkout.ItemsInBasket);
@@ -27,7 +26,7 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_calculates_the_total_price()
         {
-            var checkout = new Checkout();
+            var checkout = new Checkout(new PricingList());
             checkout.Scan("A");
             checkout.Scan("B");
             Assert.Equal(80, checkout.GetTotalPrice());
@@ -36,7 +35,7 @@ namespace CheckoutKata
         [Fact]
         public void Checkout_calculates_total_price_with_discounts()
         {
-            var checkout = new Checkout();
+            var checkout = new Checkout(new PricingList());
             checkout.Scan("A");
             checkout.Scan("A");
             checkout.Scan("A");
@@ -48,10 +47,11 @@ namespace CheckoutKata
     public class Checkout
     {
         private readonly List<string> _basket;
-        private PricingList _pricingList = new PricingList();
+        private readonly PricingList _pricingList;
 
-        public Checkout()
+        public Checkout(PricingList pricingList)
         {
+            _pricingList = pricingList;
             _basket = new List<string>();
         }
 
