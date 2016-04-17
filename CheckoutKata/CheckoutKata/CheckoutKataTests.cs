@@ -69,9 +69,11 @@ namespace CheckoutKata
     {
         public PricingList()
         {
-            Items = new List<Item>();
-            Items.Add(new Item(){SKU = "A", UnitPrice = 50});
-            Items.Add(new Item() { SKU = "B", UnitPrice = 30 });
+            Items = new List<Item>
+            {
+                new Item() {SKU = "A", UnitPrice = 50}, 
+                new Item() {SKU = "B", UnitPrice = 30}
+            };
         }
 
         public List<Item> Items { get; set; } 
