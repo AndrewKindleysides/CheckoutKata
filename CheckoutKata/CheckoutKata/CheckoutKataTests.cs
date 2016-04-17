@@ -16,13 +16,22 @@ namespace CheckoutKata
 
     public class Checkout
     {
-        public void Scan(string s)
+        private readonly List<string> _basket;
+
+        public Checkout()
         {
-            var basket = new List<string>();
-            basket.Add(s);
-            ItemsInBasket++;
+            _basket = new List<string>();
         }
 
-        public int ItemsInBasket { get; set; }
+        public void Scan(string s)
+        {
+            _basket.Add(s);
+        }
+
+        public int ItemsInBasket
+        {
+            get { return _basket.Count; }
+        }
+
     }
 }
