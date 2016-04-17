@@ -12,6 +12,12 @@ namespace CheckoutKata
         }
 
         [Fact]
+        public void Empty_basket_means_checkout_has_zero_value()
+        {
+            Assert.Equal(0, _checkout.GetTotalPrice());
+        }
+
+        [Fact]
         public void Checkout_can_scan_an_item()
         {
             _checkout.Scan("A");
@@ -114,6 +120,5 @@ namespace CheckoutKata
 
             Assert.Equal(210, _checkout.GetTotalPrice());
         }
-
     }
 }
