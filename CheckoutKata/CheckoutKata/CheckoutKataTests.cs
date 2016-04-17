@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace CheckoutKata
@@ -22,7 +24,7 @@ namespace CheckoutKata
             Assert.Equal(2, checkout.ItemsInBasket);
         }
 
-        [Fact(Skip = "initial failing test for total price")]
+        [Fact]
         public void Checkout_calculates_the_total_price()
         {
             var checkout = new Checkout();
@@ -53,7 +55,31 @@ namespace CheckoutKata
 
         public int GetTotalPrice()
         {
-            return 0;
+            var pricingList = new PricingList();
+            var total = 0;
+            foreach (var item in _basket)
+            {
+                total += pricingList.Items.First(x => x.SKU == item).UnitPrice;
+            }
+            return total;
         }
+    }
+
+    public class PricingList
+    {
+        public PricingList()
+        {
+            Items = new List<Item>();
+            Items.Add(new Item(){SKU = "A", UnitPrice = 50});
+            Items.Add(new Item() { SKU = "B", UnitPrice = 30 });
+        }
+
+        public List<Item> Items { get; set; } 
+    }
+
+    public class Item
+    {
+        public string SKU;
+        public int UnitPrice;
     }
 }
