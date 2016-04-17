@@ -72,19 +72,25 @@ namespace CheckoutKata
             {
                 total += pricingList.Items.First(x => x.SKU == item).UnitPrice;
             }
+            
+            var discountTotal = ApplyDiscounts(pricingList);
+            return total - discountTotal;
+        }
 
+        private int ApplyDiscounts(PricingList pricingList)
+        {
             var discountTotal = 0;
             if (_basket.FindAll(e => e == "A").Count > 0)
             {
+                
                 var itemA = pricingList.Items.First(x => x.SKU == "A");
                 if (_basket.FindAll(e => e == "A").Count >= itemA.SpecialPricing.Quantity)
                 {
-
                     var originalPrice = itemA.UnitPrice*itemA.SpecialPricing.Quantity;
                     discountTotal += originalPrice - itemA.SpecialPricing.Price;
                 }
             }
-            return total - discountTotal;
+            return discountTotal;
         }
     }
 
