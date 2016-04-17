@@ -21,6 +21,15 @@ namespace CheckoutKata
             checkout.Scan("B");
             Assert.Equal(2, checkout.ItemsInBasket);
         }
+
+        [Fact(Skip = "initial failing test for total price")]
+        public void Checkout_calculates_the_total_price()
+        {
+            var checkout = new Checkout();
+            checkout.Scan("A");
+            checkout.Scan("B");
+            Assert.Equal(80, checkout.GetTotalPrice());
+        }
     }
 
     public class Checkout
@@ -42,5 +51,9 @@ namespace CheckoutKata
             get { return _basket.Count; }
         }
 
+        public int GetTotalPrice()
+        {
+            return 0;
+        }
     }
 }
