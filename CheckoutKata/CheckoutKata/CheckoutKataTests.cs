@@ -89,31 +89,28 @@ namespace CheckoutKata
                 total += _pricingList.Items.First(x => x.SKU == item).UnitPrice;
             }
 
-            var discountTotal = ApplyDiscounts(_pricingList);
+            var discountTotal = ApplyDiscounts();
             return total - discountTotal;
         }
 
-        private int ApplyDiscounts(PricingList pricingList)
+        private int ApplyDiscounts()
         {
             var discountTotal = 0;
-            if (_basket.FindAll(e => e == "A").Count > 0)
-            {
+            discountTotal += CalculateDiscountTotal("A");
+            discountTotal += CalculateDiscountTotal("B");
+            return discountTotal;
+        }
 
-                var itemA = pricingList.Items.First(x => x.SKU == "A");
-                if (_basket.FindAll(e => e == "A").Count >= itemA.SpecialPricing.Quantity)
+        private int CalculateDiscountTotal(string item)
+        {
+            var discountTotal = 0;
+            if (_basket.FindAll(e => e == item).Count > 0)
+            {
+                var itemA = _pricingList.Items.First(x => x.SKU == item);
+                if (_basket.FindAll(e => e == item).Count >= itemA.SpecialPricing.Quantity)
                 {
                     var originalPrice = itemA.UnitPrice*itemA.SpecialPricing.Quantity;
                     discountTotal += originalPrice - itemA.SpecialPricing.Price;
-                }
-            }
-
-            if (_basket.FindAll(e => e == "B").Count > 0)
-            {
-                var itemB = pricingList.Items.First(x => x.SKU == "B");
-                if (_basket.FindAll(e => e == "B").Count >= itemB.SpecialPricing.Quantity)
-                {
-                    var originalPrice = itemB.UnitPrice * itemB.SpecialPricing.Quantity;
-                    discountTotal += originalPrice - itemB.SpecialPricing.Price;
                 }
             }
             return discountTotal;
