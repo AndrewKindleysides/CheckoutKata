@@ -14,9 +14,9 @@ namespace CheckoutKata
             _basket = new List<string>();
         }
 
-        public void Scan(string s)
+        public void Scan(string item)
         {
-            _basket.Add(s);
+            _basket.Add(item);
         }
 
         public int ItemsInBasket
@@ -27,7 +27,8 @@ namespace CheckoutKata
         public int GetTotalPrice()
         {
             var total = _basket.Sum(item => _pricingList.Items.First(x => x.SKU == item).UnitPrice);
-            return total - ApplyDiscounts();
+            var totalAfterDiscounts = total - ApplyDiscounts();
+            return totalAfterDiscounts;
         }
 
         private int ApplyDiscounts()
@@ -41,14 +42,16 @@ namespace CheckoutKata
         private int CalculateDiscountTotal(string item)
         {
             var discountTotal = 0;
-            if (_basket.FindAll(e => e == item).Count > 0)
+            var totalNumberofItems = _basket.FindAll(e => e == item).Count;
+
+            if (totalNumberofItems > 0)
             {
                 var selectedItem = _pricingList.Items.First(x => x.SKU == item);
-                if (_basket.FindAll(e => e == item).Count >= selectedItem.SpecialPricing.Quantity)
+                if (totalNumberofItems >= selectedItem.SpecialPricing.Quantity)
                 {
                     var originalPrice = selectedItem.UnitPrice * selectedItem.SpecialPricing.Quantity;
                     discountTotal += originalPrice - selectedItem.SpecialPricing.Price;
-                    discountTotal *= _basket.FindAll(e => e == item).Count/selectedItem.SpecialPricing.Quantity;
+                    discountTotal *= totalNumberofItems/selectedItem.SpecialPricing.Quantity;
                 }
             }
             return discountTotal;
