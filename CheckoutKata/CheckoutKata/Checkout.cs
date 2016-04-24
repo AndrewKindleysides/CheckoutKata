@@ -7,10 +7,14 @@ namespace CheckoutKata
     {
         private readonly List<string> _basket;
         private readonly PricingList _pricingList;
+        private readonly IBagChargeProvider _bagChargeProvider;
+        private readonly int _maxItemsPerBag;
 
-        public Checkout(PricingList pricingList)
+        public Checkout(PricingList pricingList, IBagChargeProvider bagChargeProvider, int maxItemsPerBag)
         {
             _pricingList = pricingList;
+            _bagChargeProvider = bagChargeProvider;
+            _maxItemsPerBag = maxItemsPerBag;
             _basket = new List<string>();
         }
 
@@ -28,7 +32,7 @@ namespace CheckoutKata
         {
             var total = _basket.Sum(item => _pricingList.Items.First(x => x.SKU == item).UnitPrice);
             var totalAfterDiscounts = total - ApplyDiscounts();
-            return totalAfterDiscounts;
+            return totalAfterDiscounts + _bagChargeProvider.GetBagCharge(_basket.Count, _maxItemsPerBag);
         }
 
         private int ApplyDiscounts()

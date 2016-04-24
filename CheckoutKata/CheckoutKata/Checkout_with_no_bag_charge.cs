@@ -2,13 +2,13 @@
 
 namespace CheckoutKata
 {
-    public class CheckoutKataTests
+    public class Checkout_with_no_bag_charge
     {
         private readonly Checkout _checkout;
 
-        public CheckoutKataTests()
+        public Checkout_with_no_bag_charge()
         {
-            _checkout = new Checkout(new PricingList());
+            _checkout = new Checkout(new PricingList(), new NoBagChargeProvider(), 5);
         }
 
         [Fact]
@@ -119,6 +119,56 @@ namespace CheckoutKata
             _checkout.Scan("D");
 
             Assert.Equal(210, _checkout.GetTotalPrice());
+        }
+
+        
+    }
+
+    public class NoBagChargeProvider : IBagChargeProvider
+    {
+        public int GetBagCharge(int itemsInBasket, int maxItemsPerBag)
+        {
+            return 0;
+        }
+    }
+
+    public class Checkout_in_Scotland_adds_bag_charge
+    {
+        private readonly Checkout _checkout;
+
+
+        public Checkout_in_Scotland_adds_bag_charge()
+        {
+            _checkout = new Checkout(new PricingList(), new ScottishBagChargeProvider(), 5);
+        }
+
+        [Fact]
+        public void Checkout_adds_on_bag_charge_with_less_than_5_items()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            Assert.Equal(135, _checkout.GetTotalPrice());
+        }
+
+        [Fact]
+        public void Checkout_adds_on_bag_charge_with_more_than_5_items()
+        {
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            
+            _checkout.Scan("A");
+            _checkout.Scan("A");
+            Assert.Equal(505, _checkout.GetTotalPrice());
         }
     }
 }

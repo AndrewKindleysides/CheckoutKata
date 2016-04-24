@@ -56,8 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBagChargeProvider.cs" />
+    <Compile Include="ScottishBagChargeProvider.cs" />
     <Compile Include="Checkout.cs" />
-    <Compile Include="CheckoutKataTests.cs" />
+    <Compile Include="Checkout_with_no_bag_charge.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="PricingList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
