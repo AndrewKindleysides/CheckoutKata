@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace CheckoutKata
+namespace CheckoutKata.Tests
 {
     public class Checkout_with_no_bag_charge
     {
